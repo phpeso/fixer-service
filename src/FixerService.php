@@ -74,7 +74,7 @@ final readonly class FixerService implements ExchangeRateServiceInterface
 
         return isset($rateData['rates'][$request->quoteCurrency]) ?
             new SuccessResponse(
-                new Decimal((string)$rateData['rates'][$request->quoteCurrency]),
+                Decimal::init($rateData['rates'][$request->quoteCurrency]),
                 Calendar::parse($rateData['date'])
             ) :
             new ErrorResponse(ConversionRateNotFoundException::fromRequest($request));
@@ -102,7 +102,7 @@ final readonly class FixerService implements ExchangeRateServiceInterface
 
         return isset($rateData['rates'][$request->quoteCurrency]) ?
             new SuccessResponse(
-                new Decimal((string)$rateData['rates'][$request->quoteCurrency]),
+                Decimal::init($rateData['rates'][$request->quoteCurrency]),
                 Calendar::parse($rateData['date'])
             ) :
             new ErrorResponse(ConversionRateNotFoundException::fromRequest($request));

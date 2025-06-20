@@ -1,0 +1,15 @@
+{
+    "success": true,
+    "timestamp": 1749859199,
+    "historical": true,
+    "base": "EUR",
+    "date": "2025-06-13",
+    "rates": {
+        "GBP": 0.852443,
+        "CZK": 24.84493,
+        "RUB": 92.187067,
+        "EUR": 1,
+        "ZAR": 20.713272,
+        "USD": 1.15553
+    }
+}
