@@ -120,7 +120,7 @@ final readonly class FixerService implements ExchangeRateServiceInterface
 
         $request = $this->requestFactory->createRequest('GET', $url);
         $request = $request->withHeader('User-Agent', UserAgentHelper::buildUserAgentString(
-            'FixerService',
+            'FixerClient',
             'peso/fixer-service',
             $request->hasHeader('User-Agent') ? $request->getHeaderLine('User-Agent') : null,
         ));

@@ -12,13 +12,23 @@
             "Peso\\Services\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Peso\\Services\\Tests\\": "tests"
+        }
+    },
     "require": {
         "php": "^8.2",
-        "peso/core": "^0.1.4"
+        "arokettu/date": "^2.4",
+        "peso/core": "^0.10",
+        "psr/http-client": "^1.0",
+        "psr/http-factory": "^1.0",
+        "psr/simple-cache": "^1 || ^2 || ^3"
     },
     "require-dev": {
         "guzzlehttp/guzzle": "^7.9",
         "php-http/discovery": "^1.20",
+        "php-http/mock-client": "^1.6",
         "phpunit/phpunit": "^12.2",
         "psy/psysh": "*",
         "sandfox.dev/code-standard": "^1.2025.05.07",
