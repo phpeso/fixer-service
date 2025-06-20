@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Peso\Services;
 
+use Arokettu\Date\Calendar;
 use DateInterval;
-use Error;
 use Override;
 use Peso\Core\Exceptions\ConversionRateNotFoundException;
 use Peso\Core\Exceptions\RequestNotSupportedException;
@@ -18,6 +18,7 @@ use Peso\Core\Services\SDK\Cache\NullCache;
 use Peso\Core\Services\SDK\Exceptions\HttpFailureException;
 use Peso\Core\Services\SDK\HTTP\DiscoveredHttpClient;
 use Peso\Core\Services\SDK\HTTP\DiscoveredRequestFactory;
+use Peso\Core\Services\SDK\HTTP\UserAgentHelper;
 use Peso\Core\Types\Decimal;
 use Peso\Services\Fixer\AccessKeyType;
 use Psr\Http\Client\ClientInterface;
@@ -69,10 +70,13 @@ final readonly class FixerService implements ExchangeRateServiceInterface
 
         $url = \sprintf(self::ENDPOINT_LATEST, http_build_query($query, encoding_type: PHP_QUERY_RFC3986));
 
-        $rates = $this->retrieveRates($url);
+        $rateData = $this->retrieveRates($url);
 
-        return isset($rates[$request->quoteCurrency]) ?
-            new SuccessResponse(new Decimal((string)$rates[$request->quoteCurrency])) :
+        return isset($rateData['rates'][$request->quoteCurrency]) ?
+            new SuccessResponse(
+                new Decimal((string)$rateData['rates'][$request->quoteCurrency]),
+                Calendar::parse($rateData['date'])
+            ) :
             new ErrorResponse(ConversionRateNotFoundException::fromRequest($request));
     }
 
@@ -94,10 +98,13 @@ final readonly class FixerService implements ExchangeRateServiceInterface
             http_build_query($query, encoding_type: PHP_QUERY_RFC3986)
         );
 
-        $rates = $this->retrieveRates($url);
+        $rateData = $this->retrieveRates($url);
 
-        return isset($rates[$request->quoteCurrency]) ?
-            new SuccessResponse(new Decimal((string)$rates[$request->quoteCurrency])) :
+        return isset($rateData['rates'][$request->quoteCurrency]) ?
+            new SuccessResponse(
+                new Decimal((string)$rateData['rates'][$request->quoteCurrency]),
+                Calendar::parse($rateData['date'])
+            ) :
             new ErrorResponse(ConversionRateNotFoundException::fromRequest($request));
     }
 
@@ -105,10 +112,10 @@ final readonly class FixerService implements ExchangeRateServiceInterface
     {
         $cacheKey = hash('sha1', $url);
 
-        $rates = $this->cache->get($cacheKey);
+        $data = $this->cache->get($cacheKey);
 
-        if ($rates !== null) {
-            return $rates;
+        if ($data !== null) {
+            return $data;
         }
 
         $request = $this->requestFactory->createRequest('GET', $url);
@@ -125,16 +132,14 @@ final readonly class FixerService implements ExchangeRateServiceInterface
 
         if ($data['success'] === false) {
             if ($data['error']['code'] === 302) {
-                return []; // invalid date range
+                return ['date' => '0000-00-00', 'rates' => []]; // invalid date range
             }
             throw HttpFailureException::fromResponse($request, $response);
         }
 
-        $rates = $data['rates'] ?? throw new Error('No rates in the response');
+        $this->cache->set($cacheKey, $data, $this->ttl);
 
-        $this->cache->set($cacheKey, $rates, $this->ttl);
-
-        return $rates;
+        return $data;
     }
 
     /**
