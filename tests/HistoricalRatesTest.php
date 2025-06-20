@@ -239,4 +239,18 @@ class HistoricalRatesTest extends TestCase
         self::assertEquals('0.000010952731', $response->rate->value);
         self::assertEquals('2025-06-13', $response->date->toString());
     }
+
+    public function testFutureDate(): void
+    {
+        $cache = new Psr16Cache(new ArrayAdapter());
+        $http = MockClient::get();
+        $date = Calendar::parse('2035-01-01');
+
+        $service = new FixerService('xxxfreexxx', AccessKeyType::Free, cache: $cache, httpClient: $http);
+
+        $response = $service->send(new HistoricalExchangeRateRequest('EUR', 'JPY', $date));
+        self::assertInstanceOf(ErrorResponse::class, $response);
+        self::assertInstanceOf(ConversionRateNotFoundException::class, $response->exception);
+        self::assertEquals('Unable to find exchange rate for EUR/JPY on 2035-01-01', $response->exception->getMessage());
+    }
 }

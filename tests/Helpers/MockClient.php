@@ -71,6 +71,12 @@ final readonly class MockClient
                 }
             }
         );
+        $client->on(
+            new RequestMatcher('/api/2035-01-01', 'data.fixer.io', ['GET'], ['https']),
+            function () {
+                return new Response(200, body: fopen(__DIR__ . '/../data/2035-01-01.json', 'r'));
+            }
+        );
 
         return $client;
     }
