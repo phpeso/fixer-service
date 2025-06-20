@@ -119,6 +119,11 @@ final readonly class FixerService implements ExchangeRateServiceInterface
         }
 
         $request = $this->requestFactory->createRequest('GET', $url);
+        $request = $request->withHeader('User-Agent', UserAgentHelper::buildUserAgentString(
+            'FixerService',
+            'peso/fixer-service',
+            $request->hasHeader('User-Agent') ? $request->getHeaderLine('User-Agent') : null,
+        ));
         $response = $this->httpClient->sendRequest($request);
 
         if ($response->getStatusCode() !== 200) {
