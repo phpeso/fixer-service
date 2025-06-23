@@ -1,4 +1,4 @@
-# European Central Bank Service for Peso
+# Fixer Client for Peso
 
 [![Packagist]][Packagist Link]
 [![PHP]][Packagist Link]
