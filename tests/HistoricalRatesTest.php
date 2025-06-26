@@ -8,7 +8,7 @@ use Arokettu\Date\Calendar;
 use Peso\Core\Exceptions\ConversionRateNotFoundException;
 use Peso\Core\Requests\HistoricalExchangeRateRequest;
 use Peso\Core\Responses\ErrorResponse;
-use Peso\Core\Responses\SuccessResponse;
+use Peso\Core\Responses\ExchangeRateResponse;
 use Peso\Core\Services\SDK\Exceptions\HttpFailureException;
 use Peso\Services\Fixer\AccessKeyType;
 use Peso\Services\FixerService;
@@ -29,17 +29,17 @@ class HistoricalRatesTest extends TestCase
         $service = new FixerService('xxxfreexxx', AccessKeyType::Free, cache: $cache, httpClient: $http);
 
         $response = $service->send(new HistoricalExchangeRateRequest('EUR', 'USD', $date));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('1.15553', $response->rate->value);
         self::assertEquals('2025-06-13', $response->date->toString());
 
         $response = $service->send(new HistoricalExchangeRateRequest('EUR', 'CZK', $date));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('24.84493', $response->rate->value);
         self::assertEquals('2025-06-13', $response->date->toString());
 
         $response = $service->send(new HistoricalExchangeRateRequest('EUR', 'JPY', $date));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('166.518785', $response->rate->value);
         self::assertEquals('2025-06-13', $response->date->toString());
 
@@ -55,17 +55,17 @@ class HistoricalRatesTest extends TestCase
         $service = new FixerService('xxxpaidxxx', AccessKeyType::Subscription, cache: $cache, httpClient: $http);
 
         $response = $service->send(new HistoricalExchangeRateRequest('EUR', 'USD', $date));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('1.15553', $response->rate->value);
         self::assertEquals('2025-06-13', $response->date->toString());
 
         $response = $service->send(new HistoricalExchangeRateRequest('EUR', 'CZK', $date));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('24.84493', $response->rate->value);
         self::assertEquals('2025-06-13', $response->date->toString());
 
         $response = $service->send(new HistoricalExchangeRateRequest('EUR', 'JPY', $date));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('166.518785', $response->rate->value);
         self::assertEquals('2025-06-13', $response->date->toString());
 
@@ -122,17 +122,17 @@ class HistoricalRatesTest extends TestCase
         $service = new FixerService('xxxpaidxxx', AccessKeyType::Subscription, cache: $cache, httpClient: $http);
 
         $response = $service->send(new HistoricalExchangeRateRequest('CZK', 'USD', $date));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('0.04651', $response->rate->value);
         self::assertEquals('2025-06-13', $response->date->toString());
 
         $response = $service->send(new HistoricalExchangeRateRequest('CZK', 'EUR', $date));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('0.04025', $response->rate->value);
         self::assertEquals('2025-06-13', $response->date->toString());
 
         $response = $service->send(new HistoricalExchangeRateRequest('CZK', 'JPY', $date));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('6.702325', $response->rate->value);
         self::assertEquals('2025-06-13', $response->date->toString());
 
@@ -150,12 +150,12 @@ class HistoricalRatesTest extends TestCase
         ], cache: $cache, httpClient: $http);
 
         $response = $service->send(new HistoricalExchangeRateRequest('EUR', 'USD', $date));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('1.15553', $response->rate->value);
         self::assertEquals('2025-06-13', $response->date->toString());
 
         $response = $service->send(new HistoricalExchangeRateRequest('EUR', 'CZK', $date));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('24.84493', $response->rate->value);
         self::assertEquals('2025-06-13', $response->date->toString());
 
@@ -179,12 +179,12 @@ class HistoricalRatesTest extends TestCase
         ], cache: $cache, httpClient: $http);
 
         $response = $service->send(new HistoricalExchangeRateRequest('EUR', 'USD', $date));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('1.15553', $response->rate->value);
         self::assertEquals('2025-06-13', $response->date->toString());
 
         $response = $service->send(new HistoricalExchangeRateRequest('EUR', 'CZK', $date));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('24.84493', $response->rate->value);
         self::assertEquals('2025-06-13', $response->date->toString());
 
@@ -208,12 +208,12 @@ class HistoricalRatesTest extends TestCase
         ], cache: $cache, httpClient: $http);
 
         $response = $service->send(new HistoricalExchangeRateRequest('CZK', 'USD', $date));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('0.04651', $response->rate->value);
         self::assertEquals('2025-06-13', $response->date->toString());
 
         $response = $service->send(new HistoricalExchangeRateRequest('CZK', 'EUR', $date));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('0.04025', $response->rate->value);
         self::assertEquals('2025-06-13', $response->date->toString());
 
@@ -235,7 +235,7 @@ class HistoricalRatesTest extends TestCase
         $service = new FixerService('xxxfreexxx', AccessKeyType::Free, cache: $cache, httpClient: $http);
 
         $response = $service->send(new HistoricalExchangeRateRequest('EUR', 'BTC', $date));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('0.000010952731', $response->rate->value);
         self::assertEquals('2025-06-13', $response->date->toString());
     }

@@ -12,7 +12,7 @@ use Peso\Core\Exceptions\RequestNotSupportedException;
 use Peso\Core\Requests\CurrentExchangeRateRequest;
 use Peso\Core\Requests\HistoricalExchangeRateRequest;
 use Peso\Core\Responses\ErrorResponse;
-use Peso\Core\Responses\SuccessResponse;
+use Peso\Core\Responses\ExchangeRateResponse;
 use Peso\Core\Services\ExchangeRateServiceInterface;
 use Peso\Core\Services\SDK\Cache\NullCache;
 use Peso\Core\Services\SDK\Exceptions\HttpFailureException;
@@ -45,7 +45,7 @@ final readonly class FixerService implements ExchangeRateServiceInterface
      * @inheritDoc
      */
     #[Override]
-    public function send(object $request): SuccessResponse|ErrorResponse
+    public function send(object $request): ExchangeRateResponse|ErrorResponse
     {
         if ($request instanceof CurrentExchangeRateRequest) {
             return self::performCurrentRequest($request);
@@ -56,7 +56,7 @@ final readonly class FixerService implements ExchangeRateServiceInterface
         return new ErrorResponse(RequestNotSupportedException::fromRequest($request));
     }
 
-    private function performCurrentRequest(CurrentExchangeRateRequest $request): ErrorResponse|SuccessResponse
+    private function performCurrentRequest(CurrentExchangeRateRequest $request): ErrorResponse|ExchangeRateResponse
     {
         if ($this->accessKeyType === AccessKeyType::Free && $request->baseCurrency !== 'EUR') {
             return new ErrorResponse(ConversionRateNotFoundException::fromRequest($request));
@@ -73,14 +73,14 @@ final readonly class FixerService implements ExchangeRateServiceInterface
         $rateData = $this->retrieveRates($url);
 
         return isset($rateData['rates'][$request->quoteCurrency]) ?
-            new SuccessResponse(
+            new ExchangeRateResponse(
                 Decimal::init($rateData['rates'][$request->quoteCurrency]),
                 Calendar::parse($rateData['date'])
             ) :
             new ErrorResponse(ConversionRateNotFoundException::fromRequest($request));
     }
 
-    private function performHistoricalRequest(HistoricalExchangeRateRequest $request): ErrorResponse|SuccessResponse
+    private function performHistoricalRequest(HistoricalExchangeRateRequest $request): ErrorResponse|ExchangeRateResponse
     {
         if ($this->accessKeyType === AccessKeyType::Free && $request->baseCurrency !== 'EUR') {
             return new ErrorResponse(ConversionRateNotFoundException::fromRequest($request));
@@ -101,7 +101,7 @@ final readonly class FixerService implements ExchangeRateServiceInterface
         $rateData = $this->retrieveRates($url);
 
         return isset($rateData['rates'][$request->quoteCurrency]) ?
-            new SuccessResponse(
+            new ExchangeRateResponse(
                 Decimal::init($rateData['rates'][$request->quoteCurrency]),
                 Calendar::parse($rateData['date'])
             ) :

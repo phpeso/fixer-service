@@ -7,7 +7,7 @@ namespace Peso\Services\Tests;
 use Peso\Core\Exceptions\ConversionRateNotFoundException;
 use Peso\Core\Requests\CurrentExchangeRateRequest;
 use Peso\Core\Responses\ErrorResponse;
-use Peso\Core\Responses\SuccessResponse;
+use Peso\Core\Responses\ExchangeRateResponse;
 use Peso\Core\Services\SDK\Exceptions\HttpFailureException;
 use Peso\Services\Fixer\AccessKeyType;
 use Peso\Services\FixerService;
@@ -27,17 +27,17 @@ class CurrentRatesTest extends TestCase
         $service = new FixerService('xxxfreexxx', AccessKeyType::Free, cache: $cache, httpClient: $http);
 
         $response = $service->send(new CurrentExchangeRateRequest('EUR', 'USD'));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('1.151477', $response->rate->value);
         self::assertEquals('2025-06-20', $response->date->toString());
 
         $response = $service->send(new CurrentExchangeRateRequest('EUR', 'CZK'));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('24.812829', $response->rate->value);
         self::assertEquals('2025-06-20', $response->date->toString());
 
         $response = $service->send(new CurrentExchangeRateRequest('EUR', 'JPY'));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('167.944632', $response->rate->value);
         self::assertEquals('2025-06-20', $response->date->toString());
 
@@ -52,17 +52,17 @@ class CurrentRatesTest extends TestCase
         $service = new FixerService('xxxpaidxxx', AccessKeyType::Subscription, cache: $cache, httpClient: $http);
 
         $response = $service->send(new CurrentExchangeRateRequest('EUR', 'USD'));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('1.151477', $response->rate->value);
         self::assertEquals('2025-06-20', $response->date->toString());
 
         $response = $service->send(new CurrentExchangeRateRequest('EUR', 'CZK'));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('24.812829', $response->rate->value);
         self::assertEquals('2025-06-20', $response->date->toString());
 
         $response = $service->send(new CurrentExchangeRateRequest('EUR', 'JPY'));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('167.944632', $response->rate->value);
         self::assertEquals('2025-06-20', $response->date->toString());
 
@@ -116,17 +116,17 @@ class CurrentRatesTest extends TestCase
         $service = new FixerService('xxxpaidxxx', AccessKeyType::Subscription, cache: $cache, httpClient: $http);
 
         $response = $service->send(new CurrentExchangeRateRequest('CZK', 'USD'));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('0.046407', $response->rate->value);
         self::assertEquals('2025-06-20', $response->date->toString());
 
         $response = $service->send(new CurrentExchangeRateRequest('CZK', 'EUR'));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('0.040302', $response->rate->value);
         self::assertEquals('2025-06-20', $response->date->toString());
 
         $response = $service->send(new CurrentExchangeRateRequest('CZK', 'JPY'));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('6.76846', $response->rate->value);
         self::assertEquals('2025-06-20', $response->date->toString());
 
@@ -143,12 +143,12 @@ class CurrentRatesTest extends TestCase
         ], cache: $cache, httpClient: $http);
 
         $response = $service->send(new CurrentExchangeRateRequest('EUR', 'USD'));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('1.151477', $response->rate->value);
         self::assertEquals('2025-06-20', $response->date->toString());
 
         $response = $service->send(new CurrentExchangeRateRequest('EUR', 'CZK'));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('24.812829', $response->rate->value);
         self::assertEquals('2025-06-20', $response->date->toString());
 
@@ -171,12 +171,12 @@ class CurrentRatesTest extends TestCase
         ], cache: $cache, httpClient: $http);
 
         $response = $service->send(new CurrentExchangeRateRequest('EUR', 'USD'));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('1.151477', $response->rate->value);
         self::assertEquals('2025-06-20', $response->date->toString());
 
         $response = $service->send(new CurrentExchangeRateRequest('EUR', 'CZK'));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('24.812829', $response->rate->value);
         self::assertEquals('2025-06-20', $response->date->toString());
 
@@ -199,12 +199,12 @@ class CurrentRatesTest extends TestCase
         ], cache: $cache, httpClient: $http);
 
         $response = $service->send(new CurrentExchangeRateRequest('CZK', 'USD'));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('0.046407', $response->rate->value);
         self::assertEquals('2025-06-20', $response->date->toString());
 
         $response = $service->send(new CurrentExchangeRateRequest('CZK', 'EUR'));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('0.040302', $response->rate->value);
         self::assertEquals('2025-06-20', $response->date->toString());
 
@@ -225,7 +225,7 @@ class CurrentRatesTest extends TestCase
         $service = new FixerService('xxxfreexxx', AccessKeyType::Free, cache: $cache, httpClient: $http);
 
         $response = $service->send(new CurrentExchangeRateRequest('EUR', 'BTC'));
-        self::assertInstanceOf(SuccessResponse::class, $response);
+        self::assertInstanceOf(ExchangeRateResponse::class, $response);
         self::assertEquals('0.000010912818', $response->rate->value);
         self::assertEquals('2025-06-20', $response->date->toString());
     }
