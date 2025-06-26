@@ -54,7 +54,7 @@ Read the full documentation here: <https://phpeso.org/v0.x/services/fixer.html>
 
 ## Support
 
-Please file issues on our main repo at GitHub: <https://github.com/phpeso/ecb-service/issues>
+Please file issues on our main repo at GitHub: <https://github.com/phpeso/fixer-service/issues>
 
 ## License
 
