@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Peso\Services\Tests;
 
 use Arokettu\Date\Calendar;
-use Peso\Core\Exceptions\ConversionRateNotFoundException;
+use Peso\Core\Exceptions\ExchangeRateNotFoundException;
 use Peso\Core\Requests\HistoricalExchangeRateRequest;
 use Peso\Core\Responses\ErrorResponse;
 use Peso\Core\Responses\ExchangeRateResponse;
@@ -82,17 +82,17 @@ final class HistoricalRatesTest extends TestCase
 
         $response = $service->send(new HistoricalExchangeRateRequest('CZK', 'USD', $date));
         self::assertInstanceOf(ErrorResponse::class, $response);
-        self::assertInstanceOf(ConversionRateNotFoundException::class, $response->exception);
+        self::assertInstanceOf(ExchangeRateNotFoundException::class, $response->exception);
         self::assertEquals('Unable to find exchange rate for CZK/USD on 2025-06-13', $response->exception->getMessage());
 
         $response = $service->send(new HistoricalExchangeRateRequest('CZK', 'EUR', $date));
         self::assertInstanceOf(ErrorResponse::class, $response);
-        self::assertInstanceOf(ConversionRateNotFoundException::class, $response->exception);
+        self::assertInstanceOf(ExchangeRateNotFoundException::class, $response->exception);
         self::assertEquals('Unable to find exchange rate for CZK/EUR on 2025-06-13', $response->exception->getMessage());
 
         $response = $service->send(new HistoricalExchangeRateRequest('CZK', 'JPY', $date));
         self::assertInstanceOf(ErrorResponse::class, $response);
-        self::assertInstanceOf(ConversionRateNotFoundException::class, $response->exception);
+        self::assertInstanceOf(ExchangeRateNotFoundException::class, $response->exception);
         self::assertEquals('Unable to find exchange rate for CZK/JPY on 2025-06-13', $response->exception->getMessage());
 
         self::assertCount(0, $http->getRequests()); // no requests
@@ -162,7 +162,7 @@ final class HistoricalRatesTest extends TestCase
         // not included
         $response = $service->send(new HistoricalExchangeRateRequest('EUR', 'JPY', $date));
         self::assertInstanceOf(ErrorResponse::class, $response);
-        self::assertInstanceOf(ConversionRateNotFoundException::class, $response->exception);
+        self::assertInstanceOf(ExchangeRateNotFoundException::class, $response->exception);
         self::assertEquals('Unable to find exchange rate for EUR/JPY on 2025-06-13', $response->exception->getMessage());
 
         self::assertCount(1, $http->getRequests()); // subsequent requests are cached
@@ -191,7 +191,7 @@ final class HistoricalRatesTest extends TestCase
         // not included
         $response = $service->send(new HistoricalExchangeRateRequest('EUR', 'JPY', $date));
         self::assertInstanceOf(ErrorResponse::class, $response);
-        self::assertInstanceOf(ConversionRateNotFoundException::class, $response->exception);
+        self::assertInstanceOf(ExchangeRateNotFoundException::class, $response->exception);
         self::assertEquals('Unable to find exchange rate for EUR/JPY on 2025-06-13', $response->exception->getMessage());
 
         self::assertCount(1, $http->getRequests()); // subsequent requests are cached
@@ -220,7 +220,7 @@ final class HistoricalRatesTest extends TestCase
         // not included
         $response = $service->send(new HistoricalExchangeRateRequest('CZK', 'JPY', $date));
         self::assertInstanceOf(ErrorResponse::class, $response);
-        self::assertInstanceOf(ConversionRateNotFoundException::class, $response->exception);
+        self::assertInstanceOf(ExchangeRateNotFoundException::class, $response->exception);
         self::assertEquals('Unable to find exchange rate for CZK/JPY on 2025-06-13', $response->exception->getMessage());
 
         self::assertCount(1, $http->getRequests()); // subsequent requests are cached
@@ -250,7 +250,7 @@ final class HistoricalRatesTest extends TestCase
 
         $response = $service->send(new HistoricalExchangeRateRequest('EUR', 'JPY', $date));
         self::assertInstanceOf(ErrorResponse::class, $response);
-        self::assertInstanceOf(ConversionRateNotFoundException::class, $response->exception);
+        self::assertInstanceOf(ExchangeRateNotFoundException::class, $response->exception);
         self::assertEquals('Unable to find exchange rate for EUR/JPY on 2035-01-01', $response->exception->getMessage());
     }
 
@@ -263,7 +263,7 @@ final class HistoricalRatesTest extends TestCase
 
         $response = $service->send(new HistoricalExchangeRateRequest('XBT', 'BTC', Calendar::parse('2025-06-13')));
         self::assertInstanceOf(ErrorResponse::class, $response);
-        self::assertInstanceOf(ConversionRateNotFoundException::class, $response->exception);
+        self::assertInstanceOf(ExchangeRateNotFoundException::class, $response->exception);
         self::assertEquals('Unable to find exchange rate for XBT/BTC on 2025-06-13', $response->exception->getMessage());
     }
 }

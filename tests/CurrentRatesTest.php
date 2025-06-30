@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Peso\Services\Tests;
 
-use Peso\Core\Exceptions\ConversionRateNotFoundException;
+use Peso\Core\Exceptions\ExchangeRateNotFoundException;
 use Peso\Core\Requests\CurrentExchangeRateRequest;
 use Peso\Core\Responses\ErrorResponse;
 use Peso\Core\Responses\ExchangeRateResponse;
@@ -78,17 +78,17 @@ final class CurrentRatesTest extends TestCase
 
         $response = $service->send(new CurrentExchangeRateRequest('CZK', 'USD'));
         self::assertInstanceOf(ErrorResponse::class, $response);
-        self::assertInstanceOf(ConversionRateNotFoundException::class, $response->exception);
+        self::assertInstanceOf(ExchangeRateNotFoundException::class, $response->exception);
         self::assertEquals('Unable to find exchange rate for CZK/USD', $response->exception->getMessage());
 
         $response = $service->send(new CurrentExchangeRateRequest('CZK', 'EUR'));
         self::assertInstanceOf(ErrorResponse::class, $response);
-        self::assertInstanceOf(ConversionRateNotFoundException::class, $response->exception);
+        self::assertInstanceOf(ExchangeRateNotFoundException::class, $response->exception);
         self::assertEquals('Unable to find exchange rate for CZK/EUR', $response->exception->getMessage());
 
         $response = $service->send(new CurrentExchangeRateRequest('CZK', 'JPY'));
         self::assertInstanceOf(ErrorResponse::class, $response);
-        self::assertInstanceOf(ConversionRateNotFoundException::class, $response->exception);
+        self::assertInstanceOf(ExchangeRateNotFoundException::class, $response->exception);
         self::assertEquals('Unable to find exchange rate for CZK/JPY', $response->exception->getMessage());
 
         self::assertCount(0, $http->getRequests()); // no requests
@@ -155,7 +155,7 @@ final class CurrentRatesTest extends TestCase
         // not included
         $response = $service->send(new CurrentExchangeRateRequest('EUR', 'JPY'));
         self::assertInstanceOf(ErrorResponse::class, $response);
-        self::assertInstanceOf(ConversionRateNotFoundException::class, $response->exception);
+        self::assertInstanceOf(ExchangeRateNotFoundException::class, $response->exception);
         self::assertEquals('Unable to find exchange rate for EUR/JPY', $response->exception->getMessage());
 
         self::assertCount(1, $http->getRequests()); // subsequent requests are cached
@@ -183,7 +183,7 @@ final class CurrentRatesTest extends TestCase
         // not included
         $response = $service->send(new CurrentExchangeRateRequest('EUR', 'JPY'));
         self::assertInstanceOf(ErrorResponse::class, $response);
-        self::assertInstanceOf(ConversionRateNotFoundException::class, $response->exception);
+        self::assertInstanceOf(ExchangeRateNotFoundException::class, $response->exception);
         self::assertEquals('Unable to find exchange rate for EUR/JPY', $response->exception->getMessage());
 
         self::assertCount(1, $http->getRequests()); // subsequent requests are cached
@@ -211,7 +211,7 @@ final class CurrentRatesTest extends TestCase
         // not included
         $response = $service->send(new CurrentExchangeRateRequest('CZK', 'JPY'));
         self::assertInstanceOf(ErrorResponse::class, $response);
-        self::assertInstanceOf(ConversionRateNotFoundException::class, $response->exception);
+        self::assertInstanceOf(ExchangeRateNotFoundException::class, $response->exception);
         self::assertEquals('Unable to find exchange rate for CZK/JPY', $response->exception->getMessage());
 
         self::assertCount(1, $http->getRequests()); // subsequent requests are cached
@@ -239,7 +239,7 @@ final class CurrentRatesTest extends TestCase
 
         $response = $service->send(new CurrentExchangeRateRequest('XBT', 'BTC'));
         self::assertInstanceOf(ErrorResponse::class, $response);
-        self::assertInstanceOf(ConversionRateNotFoundException::class, $response->exception);
+        self::assertInstanceOf(ExchangeRateNotFoundException::class, $response->exception);
         self::assertEquals('Unable to find exchange rate for XBT/BTC', $response->exception->getMessage());
     }
 }

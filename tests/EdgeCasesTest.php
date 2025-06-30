@@ -24,7 +24,7 @@ final class EdgeCasesTest extends TestCase
         $response = $service->send(new stdClass());
         self::assertInstanceOf(ErrorResponse::class, $response);
         self::assertInstanceOf(RequestNotSupportedException::class, $response->exception);
-        self::assertEquals('Unrecognized request type: "stdClass"', $response->exception->getMessage());
+        self::assertEquals('Unsupported request type: "stdClass"', $response->exception->getMessage());
     }
 
     public function testHttpFailure(): void

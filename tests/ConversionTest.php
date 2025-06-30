@@ -33,8 +33,8 @@ final class ConversionTest extends TestCase
 
         self::assertInstanceOf(ErrorResponse::class, $response);
         self::assertInstanceOf(RequestNotSupportedException::class, $response->exception);
-        self::assertStringContainsString(
-            'request type: "Peso\Core\Requests\CurrentConversionRequest"',
+        self::assertEquals(
+            'Unsupported request type: "Peso\Core\Requests\CurrentConversionRequest"',
             $response->exception->getMessage(),
         );
     }
