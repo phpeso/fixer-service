@@ -253,4 +253,17 @@ final class HistoricalRatesTest extends TestCase
         self::assertInstanceOf(ConversionRateNotFoundException::class, $response->exception);
         self::assertEquals('Unable to find exchange rate for EUR/JPY on 2035-01-01', $response->exception->getMessage());
     }
+
+    public function testInvalidCurrency(): void
+    {
+        $cache = new Psr16Cache(new ArrayAdapter());
+        $http = MockClient::get();
+
+        $service = new FixerService('xxxpaidxxx', AccessKeyType::Subscription, cache: $cache, httpClient: $http);
+
+        $response = $service->send(new HistoricalExchangeRateRequest('XBT', 'BTC', Calendar::parse('2025-06-13')));
+        self::assertInstanceOf(ErrorResponse::class, $response);
+        self::assertInstanceOf(ConversionRateNotFoundException::class, $response->exception);
+        self::assertEquals('Unable to find exchange rate for XBT/BTC on 2025-06-13', $response->exception->getMessage());
+    }
 }

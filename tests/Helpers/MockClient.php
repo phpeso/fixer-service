@@ -38,6 +38,9 @@ final readonly class MockClient
                     case 'access_key=xxxpaidxxx&base=CZK&symbols=GBP%2CCZK%2CRUB%2CEUR%2CZAR%2CUSD':
                         return new Response(200, body: fopen(__DIR__ . '/../data/rates/latest-czk-symbols.json', 'r'));
 
+                    case 'access_key=xxxpaidxxx&base=XBT':
+                        return new Response(200, body: fopen(__DIR__ . '/../data/rates/invalid-currency.json', 'r'));
+
                     default:
                         throw new \LogicException('Non-mocked query: ' . $query);
                 }
@@ -64,7 +67,13 @@ final readonly class MockClient
                         return new Response(200, body: fopen(__DIR__ . '/../data/rates/2025-06-13-symbols.json', 'r'));
 
                     case 'access_key=xxxpaidxxx&base=CZK&symbols=GBP%2CCZK%2CRUB%2CEUR%2CZAR%2CUSD':
-                        return new Response(200, body: fopen(__DIR__ . '/../data/rates/2025-06-13-czk-symbols.json', 'r'));
+                        return new Response(200, body: fopen(
+                            __DIR__ . '/../data/rates/2025-06-13-czk-symbols.json',
+                            'r',
+                        ));
+
+                    case 'access_key=xxxpaidxxx&base=XBT':
+                        return new Response(200, body: fopen(__DIR__ . '/../data/rates/invalid-currency.json', 'r'));
 
                     default:
                         throw new \LogicException('Non-mocked query: ' . $query);

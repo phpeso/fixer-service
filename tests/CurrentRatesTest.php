@@ -229,4 +229,17 @@ final class CurrentRatesTest extends TestCase
         self::assertEquals('0.000010912818', $response->rate->value);
         self::assertEquals('2025-06-20', $response->date->toString());
     }
+
+    public function testInvalidCurrency(): void
+    {
+        $cache = new Psr16Cache(new ArrayAdapter());
+        $http = MockClient::get();
+
+        $service = new FixerService('xxxpaidxxx', AccessKeyType::Subscription, cache: $cache, httpClient: $http);
+
+        $response = $service->send(new CurrentExchangeRateRequest('XBT', 'BTC'));
+        self::assertInstanceOf(ErrorResponse::class, $response);
+        self::assertInstanceOf(ConversionRateNotFoundException::class, $response->exception);
+        self::assertEquals('Unable to find exchange rate for XBT/BTC', $response->exception->getMessage());
+    }
 }
