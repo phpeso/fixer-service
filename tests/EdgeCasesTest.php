@@ -15,7 +15,7 @@ use Peso\Services\FixerService;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
-class EdgeCasesTest extends TestCase
+final class EdgeCasesTest extends TestCase
 {
     public function testInvalidRequest(): void
     {

@@ -75,13 +75,14 @@ final readonly class FixerService implements ExchangeRateServiceInterface
         return isset($rateData['rates'][$request->quoteCurrency]) ?
             new ExchangeRateResponse(
                 Decimal::init($rateData['rates'][$request->quoteCurrency]),
-                Calendar::parse($rateData['date'])
+                Calendar::parse($rateData['date']),
             ) :
             new ErrorResponse(ConversionRateNotFoundException::fromRequest($request));
     }
 
-    private function performHistoricalRequest(HistoricalExchangeRateRequest $request): ErrorResponse|ExchangeRateResponse
-    {
+    private function performHistoricalRequest(
+        HistoricalExchangeRateRequest $request,
+    ): ErrorResponse|ExchangeRateResponse {
         if ($this->accessKeyType === AccessKeyType::Free && $request->baseCurrency !== 'EUR') {
             return new ErrorResponse(ConversionRateNotFoundException::fromRequest($request));
         }
@@ -95,7 +96,7 @@ final readonly class FixerService implements ExchangeRateServiceInterface
         $url = \sprintf(
             self::ENDPOINT_HISTORICAL,
             $request->date->toString(),
-            http_build_query($query, encoding_type: PHP_QUERY_RFC3986)
+            http_build_query($query, encoding_type: PHP_QUERY_RFC3986),
         );
 
         $rateData = $this->retrieveRates($url);
@@ -103,7 +104,7 @@ final readonly class FixerService implements ExchangeRateServiceInterface
         return isset($rateData['rates'][$request->quoteCurrency]) ?
             new ExchangeRateResponse(
                 Decimal::init($rateData['rates'][$request->quoteCurrency]),
-                Calendar::parse($rateData['date'])
+                Calendar::parse($rateData['date']),
             ) :
             new ErrorResponse(ConversionRateNotFoundException::fromRequest($request));
     }
@@ -132,7 +133,7 @@ final readonly class FixerService implements ExchangeRateServiceInterface
 
         $data = json_decode(
             (string)$response->getBody(),
-            flags: JSON_THROW_ON_ERROR | JSON_OBJECT_AS_ARRAY
+            flags: JSON_THROW_ON_ERROR | JSON_OBJECT_AS_ARRAY,
         );
 
         if ($data['success'] === false) {

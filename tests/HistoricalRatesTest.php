@@ -18,7 +18,7 @@ use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 
 // phpcs:disable Generic.Files.LineLength.TooLong
-class HistoricalRatesTest extends TestCase
+final class HistoricalRatesTest extends TestCase
 {
     public function testRateFree(): void
     {
@@ -108,7 +108,7 @@ class HistoricalRatesTest extends TestCase
 
         self::expectException(HttpFailureException::class);
         self::expectExceptionMessage(
-            "HTTP error 200. Response is \"{\"success\":false,\"error\":{\"code\":105,\"type\":\"base_currency_access_restricted\"}}\n\""
+            "HTTP error 200. Response is \"{\"success\":false,\"error\":{\"code\":105,\"type\":\"base_currency_access_restricted\"}}\n\"",
         );
         $service->send(new HistoricalExchangeRateRequest('CZK', 'USD', $date));
     }

@@ -17,7 +17,7 @@ final readonly class MockClient
 
         $client->on(
             new RequestMatcher('/api/latest', 'data.fixer.io', ['GET'], ['https']),
-            function (RequestInterface $request) {
+            static function (RequestInterface $request) {
                 $query = $request->getUri()->getQuery();
                 switch ($request->getUri()->getQuery()) {
                     case 'access_key=xxxfreexxx&base=EUR':
@@ -41,11 +41,11 @@ final readonly class MockClient
                     default:
                         throw new \LogicException('Non-mocked query: ' . $query);
                 }
-            }
+            },
         );
         $client->on(
             new RequestMatcher('/api/2025-06-13', 'data.fixer.io', ['GET'], ['https']),
-            function (RequestInterface $request) {
+            static function (RequestInterface $request) {
                 $query = $request->getUri()->getQuery();
                 switch ($request->getUri()->getQuery()) {
                     case 'access_key=xxxfreexxx&base=EUR':
@@ -69,13 +69,13 @@ final readonly class MockClient
                     default:
                         throw new \LogicException('Non-mocked query: ' . $query);
                 }
-            }
+            },
         );
         $client->on(
             new RequestMatcher('/api/2035-01-01', 'data.fixer.io', ['GET'], ['https']),
-            function () {
+            static function () {
                 return new Response(200, body: fopen(__DIR__ . '/../data/2035-01-01.json', 'r'));
-            }
+            },
         );
 
         return $client;

@@ -12,7 +12,7 @@ use Peso\Services\FixerService;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
-class SupportTest extends TestCase
+final class SupportTest extends TestCase
 {
     public function testRequestsFree(): void
     {
