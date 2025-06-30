@@ -1,0 +1,15 @@
+{
+    "success": true,
+    "query": {
+        "from": "PHP",
+        "to": "EUR",
+        "amount": 1000
+    },
+    "info": {
+        "timestamp": 1749859199,
+        "rate": 0.015429
+    },
+    "date": "2025-06-13",
+    "historical": true,
+    "result": 15.429
+}

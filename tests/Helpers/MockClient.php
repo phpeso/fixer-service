@@ -19,7 +19,7 @@ final readonly class MockClient
             new RequestMatcher('/api/latest', 'data.fixer.io', ['GET'], ['https']),
             static function (RequestInterface $request) {
                 $query = $request->getUri()->getQuery();
-                switch ($request->getUri()->getQuery()) {
+                switch ($query) {
                     case 'access_key=xxxfreexxx&base=EUR':
                     case 'access_key=xxxpaidxxx&base=EUR':
                         return new Response(200, body: fopen(__DIR__ . '/../data/rates/latest.json', 'r'));
@@ -50,7 +50,7 @@ final readonly class MockClient
             new RequestMatcher('/api/2025-06-13', 'data.fixer.io', ['GET'], ['https']),
             static function (RequestInterface $request) {
                 $query = $request->getUri()->getQuery();
-                switch ($request->getUri()->getQuery()) {
+                switch ($query) {
                     case 'access_key=xxxfreexxx&base=EUR':
                     case 'access_key=xxxpaidxxx&base=EUR':
                         return new Response(200, body: fopen(__DIR__ . '/../data/rates/2025-06-13.json', 'r'));
@@ -84,6 +84,49 @@ final readonly class MockClient
             new RequestMatcher('/api/2035-01-01', 'data.fixer.io', ['GET'], ['https']),
             static function () {
                 return new Response(200, body: fopen(__DIR__ . '/../data/rates/2035-01-01.json', 'r'));
+            },
+        );
+        $client->on(
+            new RequestMatcher('/api/convert', 'data.fixer.io', ['GET'], ['https']),
+            static function (RequestInterface $request) {
+                $query = $request->getUri()->getQuery();
+                switch ($query) {
+                    case 'access_key=xxxfreexxx&from=PHP&to=EUR&amount%5Bvalue%5D=1000':
+                        return new Response(200, body: fopen(__DIR__ . '/../data/conversion/free.json', 'r'));
+
+                    case 'access_key=xxxpaidxxx&from=PHP&to=EUR&amount%5Bvalue%5D=1000':
+                        return new Response(200, body: fopen(
+                            __DIR__ . '/../data/conversion/convert-current.json',
+                            'r',
+                        ));
+
+                    case 'access_key=xxxpaidxxx&from=PHP&to=EUR&amount%5Bvalue%5D=1000&date=2025-06-13':
+                        return new Response(200, body: fopen(
+                            __DIR__ . '/../data/conversion/convert-historical.json',
+                            'r',
+                        ));
+
+                    case 'access_key=xxxpaidxxx&from=PHP&to=EUR&amount%5Bvalue%5D=1000&date=2035-01-01':
+                        return new Response(200, body: fopen(
+                            __DIR__ . '/../data/conversion/future.json',
+                            'r',
+                        ));
+
+                    case 'access_key=xxxpaidxxx&from=XBT&to=EUR&amount%5Bvalue%5D=1000':
+                        return new Response(200, body: fopen(
+                            __DIR__ . '/../data/conversion/invalid-from.json',
+                            'r',
+                        ));
+
+                    case 'access_key=xxxpaidxxx&from=PHP&to=XBT&amount%5Bvalue%5D=1000':
+                        return new Response(200, body: fopen(
+                            __DIR__ . '/../data/conversion/invalid-to.json',
+                            'r',
+                        ));
+
+                    default:
+                        throw new \LogicException('Non-mocked query: ' . $query);
+                }
             },
         );
 
