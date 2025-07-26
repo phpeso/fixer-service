@@ -3,12 +3,18 @@
 [![Packagist]][Packagist Link]
 [![PHP]][Packagist Link]
 [![License]][License Link]
+[![GitHub Actions]][GitHub Actions Link]
+[![Codecov]][Codecov Link]
 
 [Packagist]: https://img.shields.io/packagist/v/peso/fixer-service.svg?style=flat-square
 [PHP]: https://img.shields.io/packagist/php-v/peso/fixer-service.svg?style=flat-square
 [License]: https://img.shields.io/packagist/l/peso/fixer-service.svg?style=flat-square
+[GitHub Actions]: https://img.shields.io/github/actions/workflow/status/phpeso/fixer-service/ci.yml?style=flat-square
+[Codecov]: https://img.shields.io/codecov/c/gh/phpeso/fixer-service?style=flat-square
 
 [Packagist Link]: https://packagist.org/packages/peso/fixer-service
+[GitHub Actions Link]: https://github.com/phpeso/fixer-service/actions
+[Codecov Link]: https://codecov.io/gh/phpeso/fixer-service
 [License Link]: LICENSE.md
 
 This is an exchange data provider for Peso that retrieves data from
