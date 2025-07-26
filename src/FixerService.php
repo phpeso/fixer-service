@@ -122,7 +122,7 @@ final readonly class FixerService implements PesoServiceInterface
 
     private function retrieveResponse(string $url): array|false
     {
-        $cacheKey = hash('sha1', $url);
+        $cacheKey = 'peso|fixer|' . hash('sha1', $url);
 
         $data = $this->cache->get($cacheKey);
 
