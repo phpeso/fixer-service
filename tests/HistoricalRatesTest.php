@@ -108,7 +108,7 @@ final class HistoricalRatesTest extends TestCase
 
         self::expectException(HttpFailureException::class);
         self::expectExceptionMessage(
-            "HTTP error 200. Response is \"{\"success\":false,\"error\":{\"code\":105,\"type\":\"base_currency_access_restricted\"}}\n\"",
+            "HTTP error 400. Response is \"{\"success\":false,\"error\":{\"code\":105,\"type\":\"base_currency_access_restricted\"}}\n\"",
         );
         $service->send(new HistoricalExchangeRateRequest('CZK', 'USD', $date));
     }

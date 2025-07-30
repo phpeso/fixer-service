@@ -138,7 +138,8 @@ final readonly class FixerService implements PesoServiceInterface
         ));
         $response = $this->httpClient->sendRequest($request);
 
-        if ($response->getStatusCode() !== 200) {
+        // 400 indicates request problems
+        if ($response->getStatusCode() !== 200 && $response->getStatusCode() !== 400) {
             throw HttpFailureException::fromResponse($request, $response);
         }
 
