@@ -2,6 +2,12 @@
 
 ## 1.x
 
+### 1.1.1
+
+*Jul 30, 2025*
+
+* Fixed incorrect HTTP error handling
+
 ### 1.1.0
 
 *Jun 30, 2025*
