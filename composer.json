@@ -47,7 +47,7 @@
         "php-http/mock-client": "^1.6",
         "phpunit/phpunit": "^11.5",
         "psy/psysh": "*",
-        "sandfox.dev/code-standard": "^1.2025.06.29",
+        "sandfox.dev/code-standard": "^1.2025.09.17",
         "squizlabs/php_codesniffer": "*",
         "symfony/cache": "^7.3",
         "vimeo/psalm": "^6.12"
