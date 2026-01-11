@@ -39,7 +39,7 @@
         "peso/core": "^1.1",
         "psr/http-client": "^1.0",
         "psr/http-factory": "^1.0",
-        "psr/simple-cache": "^1 || ^2 || ^3"
+        "psr/simple-cache": "^2 || ^3"
     },
     "require-dev": {
         "guzzlehttp/guzzle": "^7.9",
